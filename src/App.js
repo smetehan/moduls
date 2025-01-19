@@ -42,25 +42,26 @@ const App = () => {
           onClick={() => handlePageChange("textToSpeech")}
           style={buttonStyle}
         >
-          Text to Speech
+          
+           Yazı Resim Video 
         </button>
         <button
           onClick={() => handlePageChange("videoUploader")}
           style={buttonStyle}
         >
-          Video Uploader
+         Yazı Video
         </button>
         <button
           onClick={() => handlePageChange("videoCreator")}
           style={buttonStyle}
         >
-          Video Creator
+         Yazı Resim Yazı
         </button>
         <button
           onClick={() => handlePageChange("videoDownload")}
           style={buttonStyle}
         >
-          Video Download
+          Video İndirme
         </button>
       </div>
 
