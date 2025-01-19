@@ -118,7 +118,7 @@ const buttonStyle = {
 };
 
 const pageContainerStyle = {
-  width: "250px", // Sabit genişlik
+  width: "100%", // Cep telefonu için genişlik %100
   backgroundColor: "#fff",
   padding: "20px",
   borderRadius: "10px",
@@ -128,6 +128,11 @@ const pageContainerStyle = {
   alignItems: "center",
   minHeight: "400px", // Sayfa içeriği yeterli olmasa da min yükseklik
   overflowY: "auto", // İçerik uzun olursa kaydırma çubuğu
-};
 
+  // Bilgisayar ekranı için medya sorgusu
+  "@media (min-width: 768px)": {
+    width: "750px", // Bilgisayar için sabit genişlik
+    height: "600px", // Bilgisayar için sabit yükseklik
+  },
+};
 export default App;
