@@ -4,9 +4,10 @@ import TexttoSpeech from "./TexttoSpeech";
 import VideoUploader from "./VideoUploader";
 import VideoCreator from "./VideoCreator";
 import VideoDownload from "./VideoDownload";
+import ShortsVideoEdit from "./ShortsVideoEdit";
 
 const App = () => {
-  const [activePage, setActivePage] = useState("videoDownload"); // Varsayılan sayfa: videoDownload
+  const [activePage, setActivePage] = useState("textToSpeech"); // Varsayılan sayfa: videoDownload
 
   // Aktif sayfayı değiştiren fonksiyon
   const handlePageChange = (page) => {
@@ -25,7 +26,7 @@ const App = () => {
         padding: "20px",
         backgroundColor: "#f0f0f0", // Genel arka plan rengi
         boxSizing: "border-box", // Padding'in genişlik ve yükseklik üzerinde etkisi olmasın
-        overflow: "hidden",
+        overflow: "scroll",
       }}
     >
       {/* Sayfalar arası geçiş butonları */}
@@ -42,27 +43,26 @@ const App = () => {
           onClick={() => handlePageChange("textToSpeech")}
           style={buttonStyle}
         >
-          
-           Yazı Resim Video 
+          Videodan Shorts Hazırlama
         </button>
-        <button
+        {/* <button
           onClick={() => handlePageChange("videoUploader")}
           style={buttonStyle}
         >
-         Yazı Video
+          Video Uploader
         </button>
         <button
           onClick={() => handlePageChange("videoCreator")}
           style={buttonStyle}
         >
-         Yazı Resim Yazı
+          Video Creator
         </button>
         <button
           onClick={() => handlePageChange("videoDownload")}
           style={buttonStyle}
         >
-          Video İndirme
-        </button>
+          Video Download
+        </button> */}
       </div>
 
       {/* Aktif sayfayı render et */}
@@ -79,27 +79,28 @@ const App = () => {
       >
         {activePage === "textToSpeech" && (
           <div style={pageContainerStyle}>
-            <TexttoSpeech />
+            {/* <TexttoSpeech /> */}
+            <ShortsVideoEdit />
           </div>
         )}
 
-        {activePage === "videoUploader" && (
+        {/* {activePage === "videoUploader" && (
           <div style={pageContainerStyle}>
             <VideoUploader />
           </div>
-        )}
+        )} */}
 
-        {activePage === "videoCreator" && (
+        {/* {activePage === "videoCreator" && (
           <div style={pageContainerStyle}>
             <VideoCreator />
           </div>
-        )}
+        )} */}
 
-        {activePage === "videoDownload" && (
+        {/* {activePage === "videoDownload" && (
           <div style={pageContainerStyle}>
             <VideoDownload />
           </div>
-        )}
+        )} */}
       </div>
     </div>
   );
@@ -118,7 +119,7 @@ const buttonStyle = {
 };
 
 const pageContainerStyle = {
-  width: "100%", // Cep telefonu için genişlik %100
+  width: "750px", // Sabit genişlik
   backgroundColor: "#fff",
   padding: "20px",
   borderRadius: "10px",
@@ -128,11 +129,6 @@ const pageContainerStyle = {
   alignItems: "center",
   minHeight: "400px", // Sayfa içeriği yeterli olmasa da min yükseklik
   overflowY: "auto", // İçerik uzun olursa kaydırma çubuğu
-
-  // Bilgisayar ekranı için medya sorgusu
-  "@media (min-width: 768px)": {
-    width: "750px", // Bilgisayar için sabit genişlik
-    height: "600px", // Bilgisayar için sabit yükseklik
-  },
 };
+
 export default App;
