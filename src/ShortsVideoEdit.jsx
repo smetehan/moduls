@@ -7,6 +7,7 @@ const ShortsVideoEdit = () => {
   const [message, setMessage] = useState("");
   const [downloadLinks, setDownloadLinks] = useState([]);
   const [loading, setLoading] = useState(false); // ✅ Loading state
+  const [downloadingIndex, setDownloadingIndex] = useState(null); // Hangi videonun indirildiği bilgisini tutar
 
   const handleSubmit = async () => {
     if (!videoFile || !txtFile) {
@@ -31,7 +32,7 @@ const ShortsVideoEdit = () => {
 
       try {
         const response = await fetch(
-          " https://721f-95-15-219-157.ngrok-free.app/split",
+          "https://22a6-95-15-219-157.ngrok-free.app/split",
           {
             method: "POST",
             body: formData,
@@ -56,13 +57,28 @@ const ShortsVideoEdit = () => {
   };
 
   const downloadFile = async (url, index) => {
+    console.log(url, "url");
+    setDownloadingIndex(index); // Hangi videonun indirileceğini belirtiyoruz
     setLoading(true);
+
     try {
-      const response = await fetch(url);
-      const blob = await response.blob();
+      // Ngrok uyarısını geçmek için gerekli başlıklar
+      const headers = {
+        "ngrok-skip-browser-warning": "true", // Ngrok uyarısını atla
+        "User-Agent":
+          "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36", // Tarayıcı User-Agent'ı
+      };
+
+      // Dosyayı blob formatında indiriyoruz
+      const response = await axios.get(url, {
+        responseType: "blob",
+        headers: headers, // Başlıkları ekliyoruz
+      });
+
+      const blob = response.data;
       const link = document.createElement("a");
       link.href = window.URL.createObjectURL(blob);
-      link.download = `video_${index + 1}.mp4`;
+      link.download = `output_${index + 1}.mp4`; // İndirilen dosya adı
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
@@ -70,6 +86,7 @@ const ShortsVideoEdit = () => {
       setMessage("Dosya indirme hatası!");
     }
     setLoading(false);
+    setDownloadingIndex(null); // İndirme işlemi bittiğinde `downloadingIndex` sıfırlanır
   };
 
   return (
@@ -103,8 +120,13 @@ const ShortsVideoEdit = () => {
           .reverse() // Diziyi tersine çevir
           .map((link, index) => (
             <div key={index}>
-              <button onClick={() => downloadFile(link, index)}>
-                Video {index + 1} İndir
+              <button
+                onClick={() => downloadFile(link, index)}
+                disabled={downloadingIndex === index || loading} // İndirme işlemi yapılırken butonları devre dışı bırakıyoruz
+              >
+                {downloadingIndex === index
+                  ? "Video İndiriliyor..."
+                  : `Video ${index + 1} İndir`}
               </button>
             </div>
           ))}
@@ -112,4 +134,5 @@ const ShortsVideoEdit = () => {
     </div>
   );
 };
+
 export default ShortsVideoEdit;
